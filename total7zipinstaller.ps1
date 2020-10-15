@@ -37,19 +37,19 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     }
 }
 
-Write-Output "`n`n"
-
 # Ask for the installation path
 $InstallPath = Read-Host -Prompt "`nPlease enter the full FreeCommander install path or press ENTER for the default `"Program Files`" or `"Program Files (x86)`""
 if ([string]::IsNullOrWhiteSpace($InstallPath))
 {
     Write-Output "Using the system `"Program Files`" directories"
     Write-Output "Checking if the FreeCommander XE exists in the default `"Program Files`" directories..."
+    #64-bit path detection
     if (Test-Path -Path "$defaultInstallPath64\FreeCommander.exe") {
         Write-Output "64-bits version found here: $defaultInstallPath64!"
         $InstallPath = $defaultInstallPath64
         $pluginVersion = "64"
     }
+    #32-bit path detection
     elseif (Test-Path -Path "$defaultInstallPath32\FreeCommander.exe"){
         Write-Output "32-bits version found here: $defaultInstallPath32!"
         $InstallPath = $defaultInstallPath32
@@ -123,7 +123,16 @@ try {
 }
 catch {
     Write-Output "ERROR! Download failed!"
-    exit
+    #Look for a local copy of the file
+    Write-Output "Looking for a local version of the package files (./$downloadFile_01)..."
+        if (Test-Path -Path "$PSScriptRoot\$downloadFile_01") {
+        Write-Output "Local package found! Using it."
+        Copy-Item -Path "$PSScriptRoot\$downloadFile_01" -Destination "$PSScriptRoot\$tempFolderName" -Recurse -Force
+    }
+    else {
+        Write-Output "`n`nERROR! Download failed and no local copy of $downloadFile_01 found."
+        exit
+    }
 }
 
 # Unpack the downloaded files
@@ -175,7 +184,7 @@ for(($countBkp = 0), ($backupFlag = "false"); ($countBkp -le 255) -and ($backupF
 
 # Modify the INI files and enable 7-Zip plugin
 Write-Output "Updating the FreeCommander.ini file..."
-$pluginCount = 1
+$pluginCount = 1 #Count the amount of plugins installed
 $total7zipIndex = -1
 $fcZipIndex = -1
 $fcRarIndex = -1
@@ -185,14 +194,17 @@ $lastPluginsLineIndex = -1
 #Find all installed archiver plugins
 foreach($line in $iniFile) {
     if($line -match "Title$pluginCount"){
+        #Detect Total7zip plugin
         if($line -match "Total7zip") {
             Write-Output "Total7zip found in index: $pluginCount"
             $total7zipIndex = $pluginCount
         }
+        #Detect fcZip plugin
         if($line -match "fcZip") {
             Write-Output "FCZip found in index: $pluginCount"
             $fcZipIndex = $pluginCount
         }
+        #Detect fcRar plugin
         if($line -match "fcRar") {
             Write-Output "FCRar found in index: $pluginCount"
             $fcRarIndex = $pluginCount
@@ -208,21 +220,25 @@ Write-Output "Found $pluginCount archiver plugins"
 #Disable the existing archiver plugins and configure the 7-Zip plugin
 $lineIndex = 0;
 foreach($line in $iniFile) { 
+    #Disable the internal fcZip plugin
     if($line -match "fc_internal_zip"){
         $line = $line -replace "=-1", "=0"
         Write-Output "Disabled the fcZip plugin."
         $iniFile[$lineIndex] = $line
     }
+    #Disable the internal fcRar plugin
     if($line -match "fc_internal_rar"){
         $line = $line -replace "=-1", "=0"
         Write-Output "Disabled the fcRar plugin."
         $iniFile[$lineIndex] = $line
     }
+    #Update file associations
     if($line -match "^Ext$total7zipIndex="){
         $line = "Ext$total7zipIndex=7z.xz.bzip2.gzip.tar.zip.arj.cab.chm.cpio.cramfs.deb.dmg.fat.hfs.iso.lzh.lzma.mbr.msi.nsis.ntfs.rar.rpm.squashfs.udf.vhd.wim.xar.z.gz"
         Write-Output "Updated the Total7zip extension associations."
         $iniFile[$lineIndex] = $line
     }
+    #Update plugin location
     if($line -match "^File$total7zipIndex="){
         if($pluginVersion -eq "32") {
             $line = "File$total7zipIndex=-1,735,`"$InstallPath\Plugins\wcx\Total7zip\Total7zip.wcx`",0"
@@ -234,16 +250,18 @@ foreach($line in $iniFile) {
         }
         $iniFile[$lineIndex] = $line
     }
+    #Detect the last line of the PackerPlugins section to insert a new block
     if($line -match "^SfxFile$pluginCount="){
         $lastPluginsLineIndex = $lineIndex
     }
     $lineIndex++;
 }
 
-#If the plugin was not installed, perform the installation
+#If the plugin was not previously installed, create a new configuration
 if($total7zipIndex -eq -1){
     if($lastPluginsLineIndex -ge 0){
         $pluginIndex = $pluginCount+1;
+        #Different settings for 32-bit and 64-bit versions
         if($pluginVersion -eq "32") {
             $pluginConfig = "`nTitle$pluginIndex=Total7zip`nExt$pluginIndex=7z.xz.bzip2.gzip.tar.zip.arj.cab.chm.cpio.cramfs.deb.dmg.fat.hfs.iso.lzh.lzma.mbr.msi.nsis.ntfs.rar.rpm.squashfs.udf.vhd.wim.xar.z.gz`nFile$pluginIndex=-1,735,`"$InstallPath\Plugins\wcx\Total7zip\Total7zip.wcx`",0`nSfxFile$pluginIndex=$InstallPath\FCSFXStub.exe`n"
             Write-Output "Created and enabled the 32-bit plugin configuration entry."
@@ -275,4 +293,4 @@ try{
 }
 
 # Final output for the user
-Write-Output "`n`n`nIf you dont see any errors the script was sucessfully installed! Thank you!"
+Write-Output "`n`nThe plugin was successfully installed! Have a nice day!`n`n"

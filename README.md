@@ -17,7 +17,7 @@ This is a PowerShell script for the automatic installation of the latest version
 * Automatic backup of the original configuration files before performing any changes. 
 * Works with 32-bit and 64-bit versions of Free Commander. 
 * No need to install 7-Zip on the device.
-* Open Source for maximum transparency. 
+* Open Source for maximum transparency. You can also use it to learn PowerShell :)
 
 ## Instructions
 1. Terminate the FreeCommander XE application
@@ -26,8 +26,10 @@ This is a PowerShell script for the automatic installation of the latest version
 4. If you selected a custom installation path, type the version of FreeCommander you are using: 32 or 64.
 5. If your FreeCommander configuration files are in a custom directory (ex. portable version), enter the full path for the configuration directory, otherwise just continue.
 6. After the installation, start FreeCommander and test packing and unpacking a *7z* file. 
- 
 
+## Troubleshooting
+* **Not able to download the Total7zip package:** Download the file manually from the repository. Place in the same folder as the script and run the script again.
+* **Script was blocked because it was not signed:** Right click on the script file, select properties and 'unblock'.
 
 ## Note about the package download source
 * The Total7zip ZIP package is available in the [GitHub repository](https://github.com/danpeig/freecommander_total7zip_installer) but due hosting limitations, the script downloads from my personal Web-page. Both files are identical. 
