@@ -16,10 +16,10 @@ This is a PowerShell script that automatically install the latest version of the
 * Run again to update the 7-Zip version to the latest version (if available)
 * Backup of the original configuration files before doing any changes
 * Works with 32-bit and 64-bit versions of FreeCommander
-* No need to install 7-Zip in the PC
+* No need to install 7-Zip on the device
 
 ## Instructions
-* Download and run the *total7zipinstaller.ps1* script from a PowerShell window.
+* Download and run the *total7zipinstaller.ps1* script.
 
 ## Note about the download source
 * The Total7zip package is available in the [GitHub repository](https://github.com/danpeig/freecommander_total7zip_installer) but due hosting limitations, the script downloads from my personal web-page.
