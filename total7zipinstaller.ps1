@@ -39,7 +39,7 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 Write-Output "`n`n"
 
 # Ask for the installation path
-$InstallPath = Read-Host -Prompt "Please enter the full FreeCommander install path or press ENTER for the default `"Program Files`" or `"Program Files (x86)`""
+$InstallPath = Read-Host -Prompt "`nPlease enter the full FreeCommander install path or press ENTER for the default `"Program Files`" or `"Program Files (x86)`""
 if ([string]::IsNullOrWhiteSpace($InstallPath))
 {
     Write-Output "Using the system `"Program Files`" directories"
@@ -66,7 +66,7 @@ else {
         Write-Output "FreeCommander XE found in the user defined directory: $InstallPath!"
         #Ask the user the plugin version
         while(($pluginVersion -ne "32") -and ($pluginVersion -ne "64")) {
-            $pluginVersion = Read-Host -Prompt "Please type `"32`" or `"64`" according to the version of FreeCommander you have:`n"
+            $pluginVersion = Read-Host -Prompt "`nPlease type `"32`" or `"64`" according to the version of FreeCommander you have:`n"
         }
     }
         else {
@@ -76,7 +76,7 @@ else {
 }
 
 # Ask for the configuration path
-$ConfigPath = Read-Host -Prompt "Please enter the FreeCommander.ini path or press ENTER for the default (`"..\AppData\Local\FreeCommander\Settings`")`n"
+$ConfigPath = Read-Host -Prompt "`nPlease enter the FreeCommander.ini path or press ENTER for the default (`"..\AppData\Local\FreeCommander\Settings`")`n"
 if ([string]::IsNullOrWhiteSpace($ConfigPath))
 {
     Write-Output "Checking if the configuration files exist in the default directory..."
