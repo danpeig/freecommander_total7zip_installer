@@ -19,7 +19,7 @@ This is a PowerShell script that automatically install the latest version of the
 * Download and run the *total7zipinstaller.ps1* script from a PowerShell window.
 
 ## Note about the download source
-* The package file is available in the GitHub repository but due hosting limitations it is downloaded from my personal web-page. The files should be exactly the same.
+* The Total7zip package is available in the [GitHub repository](https://github.com/danpeig/freecommander_total7zip_installer) but due hosting limitations, the script downloads from my personal web-page.
 
 ## Credits
 * 7-Zip Copyright © 1999-2020 Igor Pavlov (https://www.7-zip.org/)
