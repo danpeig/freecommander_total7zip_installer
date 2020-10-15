@@ -13,7 +13,8 @@ $defaultInstallPath32 = "$Env:Programfiles(x86)\FreeCommander XE"
 $defaultConfigPath = "$Env:LOCALAPPDATA\FreeCommanderXE\Settings"
 #$defaultConfigPath = "$PSScriptRoot\FreeCommanderConfig" #Test config file
 $tempFolderName = "TEMP_FOLDER"
-$downloadURL_01 = "https://github.com/danpeig/freecommander_total7zip_installer/raw/main/Total7Zip.zip"
+#$downloadURL_01 = "https://github.com/danpeig/freecommander_total7zip_installer/raw/main/Total7Zip.zip"
+$downloadURL_01 = "https://www.danbp.org/downloads/Total7Zip.zip"
 $downloadFile_01 = "Total7Zip.zip"
 $pluginVersion = "0" #32 or 64 bits
 
