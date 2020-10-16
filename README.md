@@ -25,7 +25,11 @@ This is a PowerShell script for the automatic installation of the latest version
 3. If you are running FreeCommander from a custom installation directory (ex. portable version), enter the full directory path, otherwise just continue.
 4. If you selected a custom installation path, type the version of FreeCommander you are using: 32 or 64.
 5. If your FreeCommander configuration files are in a custom directory (ex. portable version), enter the full path for the configuration directory, otherwise just continue.
-6. After the installation, start FreeCommander and test packing and unpacking a *7z* file. 
+6. After the installation, start FreeCommander and test packing and unpacking a *7z* file.
+
+## Uninstall
+1. From FreeCommander XE configuration menu, delete the entries for the 7Zip archiver plugin.
+2. Delete the *Plugins/wcx/Total7zip* folder from the FreeCommander XE installation folder (usually *Program Files\Free Commander XE*).
 
 ## Troubleshooting
 * **Not able to download the Total7zip package:** Download the *Total7Zip.zip* file from the repository. Place in the same folder as the script and run the script again.
