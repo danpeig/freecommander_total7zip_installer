@@ -37,7 +37,7 @@ This is a PowerShell script for the automatic installation of the latest version
 * **Is it safe to run a PowerShell script?** Safer than a compiled binary file because you can open the script and see how it works before downloading (from GitHub). I took extra precautions to explain all commands used in the script.
 
 ## Note about the package download source
-* The Total7zip ZIP package is available in the [GitHub repository](https://github.com/danpeig/freecommander_total7zip_installer) but due hosting limitations, the script downloads from my personal Web-page. Both files are identical. 
+* The Total7zip ZIP package is available in the [GitHub repository](https://github.com/danpeig/freecommander_total7zip_installer) but due hosting limitations, the script will download the payload from my personal Web-page. Both files are identical. 
 
 ## Credits
 * 7-Zip Copyright © 1999-2020 Igor Pavlov (https://www.7-zip.org/)
