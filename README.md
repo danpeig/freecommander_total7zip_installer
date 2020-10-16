@@ -28,7 +28,7 @@ This is a PowerShell script for the automatic installation of the latest version
 6. After the installation, start FreeCommander and test packing and unpacking a *7z* file. 
 
 ## Troubleshooting
-* **Not able to download the Total7zip package:** Download the file manually from the repository. Place in the same folder as the script and run the script again.
+* **Not able to download the Total7zip package:** Download the *Total7Zip.zip* file from the repository. Place in the same folder as the script and run the script again.
 * **Script was blocked because it was not signed:** Right click on the script file, select properties and 'unblock'.
 
 ## Note about the package download source
