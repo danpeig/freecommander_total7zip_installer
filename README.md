@@ -31,6 +31,11 @@ This is a PowerShell script for the automatic installation of the latest version
 * **Not able to download the Total7zip package:** Download the *Total7Zip.zip* file from the repository. Place in the same folder as the script and run the script again.
 * **Script was blocked because it was not signed:** Right click on the script file, select properties and 'unblock'.
 
+## FAQ
+* **Why did you disabled the built-in plugins?** 7-Zip library is compatible offers more configuration options and is compatible with more file types. I disabled the standard plugins to keep a consistent user experience among diffent package formats.
+* **Can I re-enable the built in plugins?** Yes, all plugins can co-exist. If you don't change the order they will be used as prioritary for opening the specified file types. When packing you will always be presented all the options available.
+* **Is it safe to run a PowerShell script?** Safer than a compiled binary file because you can open the script and see how it works before downloading (from GitHub). I took extra precautions to explain all commands used in the script.
+
 ## Note about the package download source
 * The Total7zip ZIP package is available in the [GitHub repository](https://github.com/danpeig/freecommander_total7zip_installer) but due hosting limitations, the script downloads from my personal Web-page. Both files are identical. 
 
