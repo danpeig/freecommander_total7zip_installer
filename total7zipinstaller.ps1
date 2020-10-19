@@ -7,25 +7,58 @@
 #
 
 #Configurations
-#$defaultInstallPath64 = "$PSScriptRoot\FreeCommander" #Test root folder
 $defaultInstallPath64 = "$Env:Programfiles\FreeCommander XE"
 $defaultInstallPath32 = "$Env:Programfiles(x86)\FreeCommander XE"
 $defaultConfigPath = "$Env:LOCALAPPDATA\FreeCommanderXE\Settings"
-#$defaultConfigPath = "$PSScriptRoot\FreeCommanderConfig" #Test config file
 $tempFolderName = "TEMP_FOLDER"
 #$downloadURL_01 = "https://github.com/danpeig/freecommander_total7zip_installer/raw/main/Total7Zip.zip"
 $downloadURL_01 = "https://www.danbp.org/downloads/Total7Zip.zip"
 $downloadFile_01 = "Total7Zip.zip"
 $pluginVersion = "0" #32 or 64 bits
 
+#Output with colours
+function Write-Output-Color($ForegroundColor)
+{
+    # save the current colours
+    $actual = $host.UI.RawUI.ForegroundColor
+    # set the new colours
+    $host.UI.RawUI.ForegroundColor = $ForegroundColor
+    # output
+    if ($args) {
+        Write-Output $args
+    }
+    else {
+        $input | Write-Output
+    }
+    # restore the original colour
+    $host.UI.RawUI.ForegroundColor = $actual
+}
+
+#Input with colours
+function Read-Host-Color($ForegroundColor)
+{
+    # save the current colours
+    $actual = $host.UI.RawUI.ForegroundColor
+    # set the new colours
+    $host.UI.RawUI.ForegroundColor = $ForegroundColor
+    # output
+    if ($args) {
+        Read-Host $args
+    }
+    else {
+        $input | Read-Host
+    }
+    # restore the original colour
+    $host.UI.RawUI.ForegroundColor = $actual
+}
+
 # Introductions
-Write-Output "`n------------------------------------------------------------------------------------"
-Write-Output "Welcome to the Total7Zip Installer for FreeCommander XE by Daniel BP (www.danbp.org)"
-Write-Output "--------------------------------------------------------------------------------------`n"
+Write-Output-Color green "`n------------------------------------------------------------------------------------" 
+Write-Output-Color green "Welcome to the Total7Zip Installer for FreeCommander XE by Daniel BP (www.danbp.org)"
+Write-Output-Color green "------------------------------------------------------------------------------------`n"
 Write-Output "This script will download, install and configure the latest version of 7-zip plugin."
 Write-Output "`nElevated permissions will be required...`n"
-pause
-Write-Output "`nPlease make sure you ended FreeCommander XE process including the notification bar icon. If you don't do this the configuration files will not be updated!`n"
+Write-Output-Color red "`nPlease make sure you ended FreeCommander XE process including the notification bar icon. If you don't do this the configuration files will not be updated!`n"
 pause
 
 # Self-elevate the script if required
@@ -38,25 +71,25 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 }
 
 # Ask for the installation path
-$InstallPath = Read-Host -Prompt "`nPlease enter the full FreeCommander install path or press ENTER for the default `"Program Files`" or `"Program Files (x86)`""
+$InstallPath = Read-Host-Color yellow "`nPlease enter the full FreeCommander install path or press ENTER for the default `"Program Files`" or `"Program Files (x86)`""
 if ([string]::IsNullOrWhiteSpace($InstallPath))
 {
     Write-Output "Using the system `"Program Files`" directories"
     Write-Output "Checking if the FreeCommander XE exists in the default `"Program Files`" directories..."
     #64-bit path detection
     if (Test-Path -Path "$defaultInstallPath64\FreeCommander.exe") {
-        Write-Output "64-bits version found here: $defaultInstallPath64!"
+        Write-Output-Color green "64-bits version found here: $defaultInstallPath64!"
         $InstallPath = $defaultInstallPath64
         $pluginVersion = "64"
     }
     #32-bit path detection
     elseif (Test-Path -Path "$defaultInstallPath32\FreeCommander.exe"){
-        Write-Output "32-bits version found here: $defaultInstallPath32!"
+        Write-Output-Color green "32-bits version found here: $defaultInstallPath32!"
         $InstallPath = $defaultInstallPath32
         $pluginVersion = "32"
     }
     else {
-        Write-Output "`n`nERROR! No version found in the default paths!"
+        Write-Output-Color red "`n`nERROR! No version found in the default paths!"
         exit
     }
 }
@@ -64,29 +97,42 @@ if ([string]::IsNullOrWhiteSpace($InstallPath))
 else {
     Write-Output "Checking if FreeCommander XE exists in the target folder..."
     if (Test-Path -Path "$InstallPath\FreeCommander.exe") {
-        Write-Output "FreeCommander XE found in the user defined directory: $InstallPath!"
-        #Ask the user the plugin version
-        while(($pluginVersion -ne "32") -and ($pluginVersion -ne "64")) {
-            $pluginVersion = Read-Host -Prompt "`nPlease type `"32`" or `"64`" according to the version of FreeCommander you have:`n"
+        Write-Output-Color green "FreeCommander XE found in the user defined directory: $InstallPath!"
+        #Test for 32-bit or 64-bit versions of FreeCommander
+        if(Test-Path -Path "$InstallPath\FCIcons64.dll"){
+            $pluginVersion = "64"
+        }
+        elseif(Test-Path -Path "$InstallPath\FCIcons.dll"){
+            $pluginVersion = "32"
+        }
+        else {
+            #Ask the user the plugin version
+            while(($pluginVersion -ne "32") -and ($pluginVersion -ne "64")) {
+                $pluginVersion = Read-Host-Color yellow "`nPlease type `"32`" or `"64`" according to the version of FreeCommander you have:`n"
+            }
         }
     }
         else {
-        Write-Output "`n`nERROR! No program found in the user specified path!"
+        Write-Output-Color red "`n`nERROR! No program found in the user specified path!"
         exit
     }
 }
 
 # Ask for the configuration path
-$ConfigPath = Read-Host -Prompt "`nPlease enter the FreeCommander.ini path or press ENTER for the default (`"..\AppData\Local\FreeCommander\Settings`")`n"
+$ConfigPath = Read-Host-Color yellow "`nPlease enter the FreeCommander.ini path or press ENTER for the defaults (`"..\AppData\Local\FreeCommander\Settings`" or `"[Install_Path]\Settings`")`n"
 if ([string]::IsNullOrWhiteSpace($ConfigPath))
 {
     Write-Output "Checking if the configuration files exist in the default directory..."
-    if (Test-Path -Path "$defaultConfigPath\FreeCommander.ini") {
-        Write-Output "Configuration files found here: $defaultConfigPath!"
+    if (Test-Path -Path "$InstallPath\Settings\FreeCommander.ini") {
+        Write-Output-Color green "Configuration files found here: $InstallPath\Settings!"
+        $ConfigPath = "$InstallPath\Settings"
+    }
+    elseif (Test-Path -Path "$defaultConfigPath\FreeCommander.ini") {
+        Write-Output-Color green "Configuration files found here: $defaultConfigPath!"
         $ConfigPath = $defaultConfigPath
     }
     else {
-        Write-Output "`n`nERROR! No configuration files found in the default user paths!"
+        Write-Output-Color red Write-Output "`n`nERROR! No configuration files found in the default paths! Try entering the configuration files path manually."
         exit
     }
 }
@@ -94,10 +140,10 @@ if ([string]::IsNullOrWhiteSpace($ConfigPath))
 else {
     Write-Output "Checking if FreeCommander XE exists in the target folder..."
     if (Test-Path -Path "$ConfigPath\FreeCommander.ini") {
-        Write-Output "FreeCommander.ini path is correct!"
+        Write-Output-Color green "FreeCommander.ini path is correct!"
     }
     else {
-        Write-Output "`n`nERROR! No configuration files found in the specified path!"
+        Write-Output-Color red "`n`nERROR! No configuration files found in the specified path!"
         exit
     }
 }
@@ -110,7 +156,7 @@ try{
  New-Item -Path "$PSScriptRoot\$tempFolderName" -ItemType Directory | out-null
 }
 catch {
-    Write-Output "ERROR! Failed to create the temporary directory!"
+    Write-Output-Color red "ERROR! Failed to create the temporary directory!"
 }
 }
 
@@ -122,15 +168,15 @@ try {
     $wc.DownloadFile($downloadURL_01, $output)
 }
 catch {
-    Write-Output "ERROR! Download failed!"
+    Write-Output-Color red "ERROR! Download failed!"
     #Look for a local copy of the file
     Write-Output "Looking for a local version of the package files (./$downloadFile_01)..."
         if (Test-Path -Path "$PSScriptRoot\$downloadFile_01") {
-        Write-Output "Local package found! Using it."
+        Write-Output-Color green "Local package found! Using it."
         Copy-Item -Path "$PSScriptRoot\$downloadFile_01" -Destination "$PSScriptRoot\$tempFolderName" -Recurse -Force
     }
     else {
-        Write-Output "`n`nERROR! Download failed and no local copy of $downloadFile_01 found."
+        Write-Output-Color red "`n`nERROR! Download failed and no local copy of $downloadFile_01 found."
         exit
     }
 }
@@ -141,7 +187,7 @@ try {
   Expand-Archive -LiteralPath "$PSScriptRoot\$tempFolderName\$downloadFile_01" -DestinationPath "$PSScriptRoot\$tempFolderName" -Force
 }
 catch {
-    Write-Output "ERROR! Failed to unpack the files!"
+    Write-Output-Color red "ERROR! Failed to unpack the files!"
     exit
 }
 
@@ -151,7 +197,7 @@ try {
     (Get-Content $PSScriptRoot\$tempFolderName\Plugins\wcx\Total7zip\total7zip.xml) -replace 'INSTALL_PATH', "$InstallPath" | Set-Content $PSScriptRoot\$tempFolderName\Plugins\wcx\Total7zip\total7zip.xml
 }
 catch {
-    Write-Output "ERROR! Failed to configure the XML file!"
+    Write-Output-Color red "ERROR! Failed to configure the XML file!"
     exit
 }
 
@@ -161,7 +207,7 @@ try {
     Copy-Item -Path "$PSScriptRoot\$tempFolderName\Plugins" -Destination "$InstallPath" -Recurse -Force
 }
 catch {
-    Write-Output "ERROR! Failed to copy the plugin to the installation folder!"
+    Write-Output-Color red "ERROR! Failed to copy the plugin to the installation folder!"
     exit
 }
 
@@ -173,10 +219,10 @@ for(($countBkp = 0), ($backupFlag = "false"); ($countBkp -le 255) -and ($backupF
             Copy-Item -Path "$ConfigPath\FreeCommander.ini" -Destination "$ConfigPath\FreeCommander_BKP$countBkp.ini" -Recurse -Force
         }
         catch {
-            Write-Output "ERROR! Failed to backup the INI file."
+            Write-Output-Color red "ERROR! Failed to backup the INI file."
             exit
         }
-        Write-Output "Backup filename: $ConfigPath\FreeCommander_BKP$countBkp.ini"
+        Write-Output-Color green "Backup filename: $ConfigPath\FreeCommander_BKP$countBkp.ini"
         $backupFlag = "true";
 
     }
@@ -196,17 +242,17 @@ foreach($line in $iniFile) {
     if($line -match "Title$pluginCount"){
         #Detect Total7zip plugin
         if($line -match "Total7zip") {
-            Write-Output "Total7zip found in index: $pluginCount"
+           Write-Output-Color green "Total7zip found in index: $pluginCount"
             $total7zipIndex = $pluginCount
         }
         #Detect fcZip plugin
         if($line -match "fcZip") {
-            Write-Output "FCZip found in index: $pluginCount"
+            Write-Output-Color green "FCZip found in index: $pluginCount"
             $fcZipIndex = $pluginCount
         }
         #Detect fcRar plugin
         if($line -match "fcRar") {
-            Write-Output "FCRar found in index: $pluginCount"
+            Write-Output-Color green "FCRar found in index: $pluginCount"
             $fcRarIndex = $pluginCount
         }
         $pluginCount++
@@ -215,7 +261,7 @@ foreach($line in $iniFile) {
 
 #Adjusts the counter
 $pluginCount = $pluginCount-1
-Write-Output "Found $pluginCount archiver plugins"
+Write-Output-Color green "Found $pluginCount archiver plugins"
 
 #Disable the existing archiver plugins and configure the 7-Zip plugin
 $lineIndex = 0;
@@ -223,30 +269,30 @@ foreach($line in $iniFile) {
     #Disable the internal fcZip plugin
     if($line -match "fc_internal_zip"){
         $line = $line -replace "=-1", "=0"
-        Write-Output "Disabled the fcZip plugin."
+        Write-Output-Color green "Disabled the fcZip plugin."
         $iniFile[$lineIndex] = $line
     }
     #Disable the internal fcRar plugin
     if($line -match "fc_internal_rar"){
         $line = $line -replace "=-1", "=0"
-        Write-Output "Disabled the fcRar plugin."
+        Write-Output-Color green "Disabled the fcRar plugin."
         $iniFile[$lineIndex] = $line
     }
     #Update file associations
     if($line -match "^Ext$total7zipIndex="){
         $line = "Ext$total7zipIndex=7z.xz.bzip2.gzip.tar.zip.arj.cab.chm.cpio.cramfs.deb.dmg.fat.hfs.iso.lzh.lzma.mbr.msi.nsis.ntfs.rar.rpm.squashfs.udf.vhd.wim.xar.z.gz"
-        Write-Output "Updated the Total7zip extension associations."
+        Write-Output-Color green "Updated the Total7zip extension associations."
         $iniFile[$lineIndex] = $line
     }
     #Update plugin location
     if($line -match "^File$total7zipIndex="){
         if($pluginVersion -eq "32") {
-            $line = "File$total7zipIndex=-1,735,`"$InstallPath\Plugins\wcx\Total7zip\Total7zip.wcx`",0"
-            Write-Output "Updated the Total7zip path and enabled the 32-bit plugin."
+            $line = "File$total7zipIndex=-1,735,`"%FCSrcPath%\Plugins\wcx\Total7zip\Total7zip.wcx`",0"
+            Write-Output-Color green "Updated the Total7zip path and enabled the 32-bit plugin."
         }
         if($pluginVersion -eq "64") {
-            $line = "File$total7zipIndex=-1,735,`"$InstallPath\Plugins\wcx\Total7zip\Total7zip.wcx64`",0"
-            Write-Output "Updated the Total7zip path and enabled the 64-bit plugin."
+            $line = "File$total7zipIndex=-1,735,`"%FCSrcPath%\Plugins\wcx\Total7zip\Total7zip.wcx64`",0"
+            Write-Output-Color green "Updated the Total7zip path and enabled the 64-bit plugin."
         }
         $iniFile[$lineIndex] = $line
     }
@@ -263,12 +309,12 @@ if($total7zipIndex -eq -1){
         $pluginIndex = $pluginCount+1;
         #Different settings for 32-bit and 64-bit versions
         if($pluginVersion -eq "32") {
-            $pluginConfig = "`nTitle$pluginIndex=Total7zip`nExt$pluginIndex=7z.xz.bzip2.gzip.tar.zip.arj.cab.chm.cpio.cramfs.deb.dmg.fat.hfs.iso.lzh.lzma.mbr.msi.nsis.ntfs.rar.rpm.squashfs.udf.vhd.wim.xar.z.gz`nFile$pluginIndex=-1,735,`"$InstallPath\Plugins\wcx\Total7zip\Total7zip.wcx`",0`nSfxFile$pluginIndex=$InstallPath\FCSFXStub.exe`n"
-            Write-Output "Created and enabled the 32-bit plugin configuration entry."
+            $pluginConfig = "`nTitle$pluginIndex=Total7zip`nExt$pluginIndex=7z.xz.bzip2.gzip.tar.zip.arj.cab.chm.cpio.cramfs.deb.dmg.fat.hfs.iso.lzh.lzma.mbr.msi.nsis.ntfs.rar.rpm.squashfs.udf.vhd.wim.xar.z.gz`nFile$pluginIndex=-1,735,`"%FCSrcPath%\Plugins\wcx\Total7zip\Total7zip.wcx`",0`nSfxFile$pluginIndex=%FCSrcPath%\FCSFXStub.exe`n"
+            Write-Output-Color green "Created and enabled the 32-bit plugin configuration entry."
         }
         if($pluginVersion -eq "64") {
-            $pluginConfig = "`nTitle$pluginIndex=Total7zip`nExt$pluginIndex=7z.xz.bzip2.gzip.tar.zip.arj.cab.chm.cpio.cramfs.deb.dmg.fat.hfs.iso.lzh.lzma.mbr.msi.nsis.ntfs.rar.rpm.squashfs.udf.vhd.wim.xar.z.gz`nFile$pluginIndex=-1,735,`"$InstallPath\Plugins\wcx\Total7zip\Total7zip.wcx64`",0`nSfxFile$pluginIndex=$InstallPath\FCSFXStub.exe`n"
-            Write-Output "Created and enabled the 64-bit plugin configuration entry."
+            $pluginConfig = "`nTitle$pluginIndex=Total7zip`nExt$pluginIndex=7z.xz.bzip2.gzip.tar.zip.arj.cab.chm.cpio.cramfs.deb.dmg.fat.hfs.iso.lzh.lzma.mbr.msi.nsis.ntfs.rar.rpm.squashfs.udf.vhd.wim.xar.z.gz`nFile$pluginIndex=-1,735,`"%FCSrcPath%\Plugins\wcx\Total7zip\Total7zip.wcx64`",0`nSfxFile$pluginIndex=%FCSrcPath%\FCSFXStub.exe`n"
+            Write-Output-Color green "Created and enabled the 64-bit plugin configuration entry."
         }
         $iniFile[$lastPluginsLineIndex] += $pluginConfig
     }
@@ -280,7 +326,7 @@ Write-Output "Writing the final configuration file..."
 try{ 
     $iniFile | Set-Content -Path "$ConfigPath\FreeCommander.ini"
 } catch{
-    Write-Output "ERROR! Failed to write the configuration file!"
+    Write-Output-Color red "ERROR! Failed to write the configuration file!"
     exit
 }
 
@@ -289,8 +335,8 @@ Write-Output "Deleting the temporary directory..."
 try{ 
     Remove-Item -Path "$PSScriptRoot\$tempFolderName" -Recurse
 } catch{
-    Write-Output "ERROR! Failed to delete the temporary folder. Try doing this manually!"
+    Write-Output-Color red "ERROR! Failed to delete the temporary folder. Try doing this manually!"
 }
 
 # Final output for the user
-Write-Output "`n`nThe plugin was successfully installed! Have a nice day!`n`n"
+Write-Output-Color yellow "`n`nThe plugin was successfully installed! Have a nice day!`n`n"
