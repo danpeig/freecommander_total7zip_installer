@@ -45,6 +45,9 @@ This is a PowerShell script for the automatic installation of the latest version
 
 ## Changelog
 
+### Version 1.11 (20/10/2020)
+* Added a final pause to prevent the PowerShell window from closing automatically in some systems.
+
 ### Version 1.1 (19/10/2020)
 * Automatic detection of the settings folder for portable installations
 * Automatic detection of 32-bit and 64-bit FC versions
