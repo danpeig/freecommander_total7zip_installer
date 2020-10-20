@@ -61,3 +61,8 @@ This is a PowerShell script for the automatic installation of the latest version
 
 ## Bugs and feature requests
 * Please contact me at www.danbp.org
+
+## Screenshots
+![Script Output](Screenshot_v1.1.PNG)
+![Script Final Configuration](Screenshot_v1.1_2.PNG)
+![Virus Check](2020-10-16%20VirusTotal.png)
