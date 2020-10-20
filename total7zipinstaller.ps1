@@ -340,3 +340,4 @@ try{
 
 # Final output for the user
 Write-Output-Color yellow "`n`nThe plugin was successfully installed! Have a nice day!`n`n"
+pause
