@@ -21,10 +21,10 @@ This is a PowerShell script for the automatic installation of the latest version
 
 ## Instructions
 1. Terminate the FreeCommander XE application
-2. Download the *total7zipinstaller.ps1* script.
-3. Run the *total7zipinstaller.ps1* script: right click on the file ->  select *Run with Powershell*
-3. If you are running FreeCommander from a custom installation directory (ex. portable version), enter the full directory path, otherwise just continue.
-4. If your FreeCommander configuration files are in a custom directory (ex. portable version), enter the full path for the configuration directory, otherwise just continue.
+2. Download the *total7zipinstaller.ps1* script. If you are running a portable version save the script inside the FreeCommander installation folder so it can detect the path automatically.
+3. Run the *total7zipinstaller.ps1* script: right click on the file (context menu) ->  select *Run with Powershell*. Depending on your Windows configuration, you might have allow the execution or even 'unblock' the script (see troubleshooting).
+3. If you are running FreeCommander from a custom installation directory, enter the full directory path, otherwise just continue. The script will try to find the correct path.
+4. If your FreeCommander configuration files are in a custom directory, enter the full path for the configuration directory, otherwise just continue. The script will try to find the correct path.
 5. After the installation, start FreeCommander and test packing and unpacking a *7z* file.
 
 ## Uninstall
@@ -44,6 +44,12 @@ This is a PowerShell script for the automatic installation of the latest version
 * The Total7zip ZIP package is available in the [GitHub repository](https://github.com/danpeig/freecommander_total7zip_installer) but due hosting limitations, the script will download the payload from my personal Web-page. Both files are identical. 
 
 ## Changelog
+
+### Version 1.2 (21/10/2020)
+* Fixed BOM in the generated INI configuration files.
+* Fixed installation on systems without the built-in archiver plugins configured.
+* Automatic detection of installation path if the script is placed in the FreeCommander.exe installation folder (nice for Portable versions).
+* Display the script version during startup.
 
 ### Version 1.11 (20/10/2020)
 * Added a final pause to prevent the PowerShell window from closing automatically in some systems.
