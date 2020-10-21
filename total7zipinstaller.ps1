@@ -56,6 +56,7 @@ function Read-Host-Color($ForegroundColor)
 Write-Output-Color green "`n------------------------------------------------------------------------------------" 
 Write-Output-Color green "Welcome to the Total7Zip Installer for FreeCommander XE by Daniel BP (www.danbp.org)"
 Write-Output-Color green "------------------------------------------------------------------------------------`n"
+Write-Output-Color green "Script version: 1.2`n"
 Write-Output "This script will download, install and configure the latest version of 7-zip plugin."
 Write-Output "`nElevated permissions will be required...`n"
 Write-Output-Color red "`nPlease make sure you ended FreeCommander XE process including the notification bar icon. If you don't do this the configuration files will not be updated!`n"
@@ -71,20 +72,32 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 }
 
 # Ask for the installation path
-$InstallPath = Read-Host-Color yellow "`nPlease enter the full FreeCommander install path or press ENTER for the default `"Program Files`" or `"Program Files (x86)`""
+$InstallPath = Read-Host-Color yellow "`nPlease enter the full FreeCommander install path or press ENTER for the typical folders`""
 if ([string]::IsNullOrWhiteSpace($InstallPath))
 {
-    Write-Output "Using the system `"Program Files`" directories"
-    Write-Output "Checking if the FreeCommander XE exists in the default `"Program Files`" directories..."
+    Write-Output "Using the system `"Program Files`" directories or script root"
+    Write-Output "Checking if the FreeCommander XE exists in the default `"Program Files`" directories or script root..."
+    #32-bit path detection at script root folder
+    if (Test-Path -Path "$PSScriptRoot\FCIcons.dll"){
+        Write-Output-Color green "32-bit version found in the script root: $PSScriptRoot!"
+        $InstallPath = $PSScriptRoot
+        $pluginVersion = "32"
+    }
+    #64-bit path detection at script root folder
+    elseif (Test-Path -Path "$PSScriptRoot\FCIcons64.dll"){
+        Write-Output-Color green "64-bit version found in the script root: $PSScriptRoot!"
+        $InstallPath = $PSScriptRoot
+        $pluginVersion = "64"
+    }
     #64-bit path detection
-    if (Test-Path -Path "$defaultInstallPath64\FreeCommander.exe") {
-        Write-Output-Color green "64-bits version found here: $defaultInstallPath64!"
+    elseif (Test-Path -Path "$defaultInstallPath64\FreeCommander.exe") {
+        Write-Output-Color green "64-bit version found here: $defaultInstallPath64!"
         $InstallPath = $defaultInstallPath64
         $pluginVersion = "64"
     }
     #32-bit path detection
     elseif (Test-Path -Path "$defaultInstallPath32\FreeCommander.exe"){
-        Write-Output-Color green "32-bits version found here: $defaultInstallPath32!"
+        Write-Output-Color green "32-bit version found here: $defaultInstallPath32!"
         $InstallPath = $defaultInstallPath32
         $pluginVersion = "32"
     }
@@ -235,24 +248,23 @@ $total7zipIndex = -1
 $fcZipIndex = -1
 $fcRarIndex = -1
 $iniFile = Get-Content "$ConfigPath\FreeCommander.ini"
-$lastPluginsLineIndex = -1
 
 #Find all installed archiver plugins
 foreach($line in $iniFile) {
     if($line -match "Title$pluginCount"){
         #Detect Total7zip plugin
         if($line -match "Total7zip") {
-           Write-Output-Color green "Total7zip found in index: $pluginCount"
+           Write-Output-Color green "Total7zip found in index: $pluginCount."
             $total7zipIndex = $pluginCount
         }
         #Detect fcZip plugin
         if($line -match "fcZip") {
-            Write-Output-Color green "FCZip found in index: $pluginCount"
+            Write-Output-Color green "FCZip found in index: $pluginCount."
             $fcZipIndex = $pluginCount
         }
         #Detect fcRar plugin
         if($line -match "fcRar") {
-            Write-Output-Color green "FCRar found in index: $pluginCount"
+            Write-Output-Color green "FCRar found in index: $pluginCount."
             $fcRarIndex = $pluginCount
         }
         $pluginCount++
@@ -261,9 +273,11 @@ foreach($line in $iniFile) {
 
 #Adjusts the counter
 $pluginCount = $pluginCount-1
-Write-Output-Color green "Found $pluginCount archiver plugins"
+Write-Output-Color green "Found $pluginCount archiver plugins."
 
 #Disable the existing archiver plugins and configure the 7-Zip plugin
+$lastPluginsLineIndex = -1
+$pluginSectionLineIndex = -1
 $lineIndex = 0;
 foreach($line in $iniFile) { 
     #Disable the internal fcZip plugin
@@ -300,12 +314,17 @@ foreach($line in $iniFile) {
     if($line -match "^SfxFile$pluginCount="){
         $lastPluginsLineIndex = $lineIndex
     }
+	#Detect the plugins section (will be used if no plugin was detected)
+    if($line -match "PackerPlugins"){
+        Write-Output-Color green "Found [PackerPlugins] section."
+        $pluginSectionLineIndex = $lineIndex
+    }
     $lineIndex++;
 }
 
 #If the plugin was not previously installed, create a new configuration
 if($total7zipIndex -eq -1){
-    if($lastPluginsLineIndex -ge 0){
+    if($pluginSectionLineIndex -ge 0){
         $pluginIndex = $pluginCount+1;
         #Different settings for 32-bit and 64-bit versions
         if($pluginVersion -eq "32") {
@@ -316,7 +335,12 @@ if($total7zipIndex -eq -1){
             $pluginConfig = "`nTitle$pluginIndex=Total7zip`nExt$pluginIndex=7z.xz.bzip2.gzip.tar.zip.arj.cab.chm.cpio.cramfs.deb.dmg.fat.hfs.iso.lzh.lzma.mbr.msi.nsis.ntfs.rar.rpm.squashfs.udf.vhd.wim.xar.z.gz`nFile$pluginIndex=-1,735,`"%FCSrcPath%\Plugins\wcx\Total7zip\Total7zip.wcx64`",0`nSfxFile$pluginIndex=%FCSrcPath%\FCSFXStub.exe`n"
             Write-Output-Color green "Created and enabled the 64-bit plugin configuration entry."
         }
-        $iniFile[$lastPluginsLineIndex] += $pluginConfig
+        if($lastPluginsLineIndex -ge 0) { #If there are plugins installed, place after the last one
+			$iniFile[$lastPluginsLineIndex] += $pluginConfig
+		}
+		if(($lastPluginsLineIndex -eq -1) -and ($pluginSectionLineIndex -ge -0)) { #In case there are no other plugins installed
+			$iniFile[$pluginSectionLineIndex] += $pluginConfig
+		}
     }
 
 }
@@ -324,7 +348,7 @@ if($total7zipIndex -eq -1){
 #Write the final configuration file
 Write-Output "Writing the final configuration file..."
 try{ 
-    $iniFile | Set-Content -Path "$ConfigPath\FreeCommander.ini"
+    $iniFile | Set-Content -Encoding UTF8 -Path "$ConfigPath\FreeCommander.ini"
 } catch{
     Write-Output-Color red "ERROR! Failed to write the configuration file!"
     exit
