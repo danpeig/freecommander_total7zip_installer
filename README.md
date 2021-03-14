@@ -46,7 +46,7 @@ This is a PowerShell script for the automatic installation of the latest version
 ## Changelog
 
 ### Version 1.3 (14/03/2021)
-* Updated 7-Zip library to 21.01 alpha as several important bugs were fixed sinced version 19.
+* Updated 7-Zip library to 21.01 alpha as several important bugs were fixed since version 19.
 
 ### Version 1.2 (21/10/2020)
 * Fixed BOM in the generated INI configuration files.
