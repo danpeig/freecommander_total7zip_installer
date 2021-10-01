@@ -8,7 +8,7 @@
 
 #Configurations
 $defaultInstallPath64 = "$Env:Programfiles\FreeCommander XE"
-$defaultInstallPath32 = "$Env:Programfiles(x86)\FreeCommander XE"
+$defaultInstallPath32 = "$Env:ProgramFiles (x86)\FreeCommander XE"
 $defaultConfigPath = "$Env:LOCALAPPDATA\FreeCommanderXE\Settings"
 $tempFolderName = "TEMP_FOLDER"
 #$downloadURL_01 = "https://github.com/danpeig/freecommander_total7zip_installer/raw/main/Total7Zip.zip"
