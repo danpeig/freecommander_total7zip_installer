@@ -45,6 +45,9 @@ This is a PowerShell script for the automatic installation of the latest version
 
 ## Changelog
 
+### Version 1.4 (24/10/2021)
+* Fixed 32-bit version default installation directory name
+
 ### Version 1.3 (14/03/2021)
 * Updated 7-Zip library to 21.01 alpha as several important bugs were fixed since version 19.
 

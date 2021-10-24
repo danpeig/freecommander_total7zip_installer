@@ -56,7 +56,7 @@ function Read-Host-Color($ForegroundColor)
 Write-Output-Color green "`n------------------------------------------------------------------------------------" 
 Write-Output-Color green "Welcome to the Total7Zip Installer for FreeCommander XE by Daniel BP (www.danbp.org)"
 Write-Output-Color green "------------------------------------------------------------------------------------`n"
-Write-Output-Color green "Script version: 1.3`n"
+Write-Output-Color green "Script version: 1.4`n"
 Write-Output "This script will download, install and configure the latest version of 7-zip plugin."
 Write-Output "`nElevated permissions will be required...`n"
 Write-Output-Color red "`nPlease make sure you ended FreeCommander XE process including the notification bar icon. If you don't do this the configuration files will not be updated!`n"
