@@ -8,11 +8,11 @@ This is a PowerShell script for the automatic installation of the latest version
 * 21.07
 
 ## Tested with
-* FreeCommander XE Build 830 (32 and 64-bit)
+* FreeCommander XE Build 864 (32 and 64-bit)
 
 ## Features
 * Automatic download and installation of the latest version of the Total7zip plugin. 
-* Automatic configuration of FreeCommander XE for the appropriate file associations (7z, xz, bzip2, gzip, tar, zip, arj, cab, chm, cpio, cramfs, deb, dmg, fat, hfs, iso, lzh, lzma, mbr, msi, nsis, ntfs, rar, rpm, squashfs, udf, vhd, wim, xar, z, gz)
+* Automatic configuration of FreeCommander XE for the appropriate file associations (7z, xz, bzip2, gzip, tar, zip, arj, cab, chm, cpio, cramfs, deb, dmg, fat, hfs, iso, lzh, lzma, mbr, msi, nsis, ntfs, rar, rpm, squashfs, udf, vhd, wim, xar, z, gz, vhdx)
 * Run again to update 7-Zip library to the latest version (if available). 
 * Automatic backup of the original configuration files before performing any changes. 
 * Works with 32-bit and 64-bit versions of Free Commander XE. 
