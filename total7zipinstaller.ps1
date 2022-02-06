@@ -294,7 +294,7 @@ foreach($line in $iniFile) {
     }
     #Update file associations
     if($line -match "^Ext$total7zipIndex="){
-        $line = "Ext$total7zipIndex=7z.xz.bzip2.gzip.tar.zip.arj.cab.chm.cpio.cramfs.deb.dmg.fat.hfs.iso.lzh.lzma.mbr.msi.nsis.ntfs.rar.rpm.squashfs.udf.vhd.wim.xar.z.gz"
+        $line = "Ext$total7zipIndex=7z.xz.bzip2.gzip.tar.zip.arj.cab.chm.cpio.cramfs.deb.dmg.fat.hfs.iso.lzh.lzma.mbr.msi.nsis.ntfs.rar.rpm.squashfs.udf.vhd.wim.xar.z.gz.vhdx"
         Write-Output-Color green "Updated the Total7zip extension associations."
         $iniFile[$lineIndex] = $line
     }
