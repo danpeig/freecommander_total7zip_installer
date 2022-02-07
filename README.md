@@ -21,7 +21,7 @@ This is a PowerShell script for the automatic installation of the latest version
 
 ## Instructions
 1. Terminate the FreeCommander XE application
-2. Download the *total7zipinstaller.ps1* script. If you are running a portable version save the script inside the FreeCommander installation folder so it can detect the path automatically.
+2. Download the *total7zipinstaller.ps1* script. If you are running a portable version save the script inside the FreeCommander installation folder so it can detect the path automatically. The *.ps1* file is the only one you need to download.
 3. Run the *total7zipinstaller.ps1* script: right click on the file (context menu) ->  select *Run with Powershell*. Depending on your Windows configuration, you might have allow the execution or even 'unblock' the script (see troubleshooting).
 3. If you are running FreeCommander from a custom installation directory, enter the full directory path, otherwise just continue. The script will try to find the correct path.
 4. If your FreeCommander configuration files are in a custom directory, enter the full path for the configuration directory, otherwise just continue. The script will try to find the correct path.
@@ -39,6 +39,7 @@ This is a PowerShell script for the automatic installation of the latest version
 * **Why did you disabled the built-in plugins?** 7-Zip library is offers more configuration options and is compatible with more file types. I disabled the standard plugins to keep a consistent user experience among different packagers.
 * **Can I re-enable the built in plugins?** Yes, all plugins can co-exist. If you don't change the order they will be used as prioritary for opening the specified file types. When packing you will always be presented all the options available.
 * **Is it safe to run a PowerShell script?** Safer than a compiled binary file - you can see how it works even before downloading (from GitHub). I took extra precautions to explain all commands used in the script.
+* **How do I update the file associations for the plugin?** Navigate to the Tools Menu->Settings->Archiver plugins->Total7zip.
 
 ## Note about the package download source
 * The Total7zip ZIP package is available in the [GitHub repository](https://github.com/danpeig/freecommander_total7zip_installer) but due hosting limitations, the script will download the payload from my personal Web-page. Both files are identical. 
