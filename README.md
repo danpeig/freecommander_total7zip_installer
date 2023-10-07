@@ -42,9 +42,6 @@ This is a PowerShell script for the automatic installation of the latest version
 * **Is it safe to run a PowerShell script?** Safer than a compiled binary file - you can see how it works even before downloading (from GitHub). I took extra precautions to explain all commands used in the script.
 * **How do I update the file associations for the plugin?** Navigate to the Tools Menu->Settings->Archiver plugins->Total7zip.
 
-## Note about the package download source
-* The Total7zip ZIP package is available in the [GitHub repository](https://github.com/danpeig/freecommander_total7zip_installer) but due hosting limitations, the script will download the payload from my personal Web-page. Both files are identical. 
-
 ## Changelog
 
 ### Version 1.6 (07/10/2023)
