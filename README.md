@@ -31,8 +31,10 @@ This is a PowerShell script for the automatic installation of the latest version
 2. Delete the *Plugins/wcx/Total7zip* folder from the FreeCommander XE installation folder (usually *Program Files\Free Commander XE*).
 
 ## Troubleshooting
-* **Not able to download the Total7zip package:** Download the *Total7Zip.zip* file from the repository. Place in the same folder as the script and run the script again.
+* **Not able to download the Total7zip package:** Download the [Total7Zip.zip](https://danpeig.github.io/freecommander_total7zip_installer/Total7Zip.zip) file from the repository. Place in the same folder as the script and run the script again.
 * **Script was blocked because it was not signed:** Right click on the script file, select properties and 'unblock'.
+* **Optional admin rights:** Are required to modify installed versions of FreeCommander. If you are using the portable version, you don't need admin rights. In this case, delete the "Self-elevate" portion of the script and run again.
+* **Can't find FreeCommander path:** Depending on your system language settings, the input prompt for a custom install path will not work. In this case, edit the script file and add the paths manually. Required fields:  `defaultInstallPath64` or `defaultInstallPath32` and `defaultConfigPath`.
 
 ## FAQ
 * **Why did you disabled the built-in plugins?** 7-Zip library is offers more configuration options and is compatible with more file types. I disabled the standard plugins to keep a consistent user experience among different packagers.
@@ -47,6 +49,8 @@ This is a PowerShell script for the automatic installation of the latest version
 
 ### Version 1.6 (07/10/2023)
 * Updated 7-Zip library to 23.01, latest stable.
+* Downloads the 7-Zip plugin directly from GitHub repository, not from my personal website.
+* Updated troubleshooting section.
 
 ### Version 1.5 (06/02/2022)
 * Updated 7-Zip library to 21.07 latest stable.
