@@ -8,7 +8,7 @@ This is a PowerShell script for the automatic installation of the latest version
 * 23.01
 
 ## Tested with
-* FreeCommander XE Build 894 (32 and 64-bit)
+* FreeCommander XE Build 894 (64-bit) and 880 (32-bit)
 
 ## Features
 * Automatic download and installation of the latest version of the Total7zip plugin. 
