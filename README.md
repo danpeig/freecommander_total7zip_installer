@@ -20,8 +20,8 @@ This is a PowerShell script for the automatic installation of the latest version
 
 ## Instructions
 1. Terminate the FreeCommander XE application
-2. Download the *total7zipinstaller.ps1* script. If you are running a portable version save the script inside the FreeCommander installation folder so it can detect the path automatically. The *.ps1* file is the only one you need to download.
-3. Run the *total7zipinstaller.ps1* script: right click on the file (context menu) ->  select *Run with Powershell*. Depending on your Windows configuration, you might have allow the execution or even 'unblock' the script (see troubleshooting).
+2. Download [total7zipinstaller.ps1](https://danpeig.github.io/freecommander_total7zip_installer/total7zipinstaller.ps1) script. If you are running a portable version save the script inside the FreeCommander installation folder so it can detect the path automatically. The *.ps1* file is the only one you need to download.
+3. Run *total7zipinstaller.ps1* script: right click on the file (context menu) ->  select *Run with Powershell*. Depending on your Windows configuration, you might have allow the execution or even 'unblock' the script (see troubleshooting).
 3. If you are running FreeCommander from a custom installation directory, enter the full directory path, otherwise just continue. The script will try to find the correct path.
 4. If your FreeCommander configuration files are in a custom directory, enter the full path for the configuration directory, otherwise just continue. The script will try to find the correct path.
 5. After the installation, start FreeCommander and test packing and unpacking a *7z* file.
