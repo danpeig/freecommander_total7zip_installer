@@ -1,6 +1,6 @@
 #
 # Total7zip Plugin Installer for FreeCommander XE
-# This script was written by Daniel Brooke Peig (www.danbp.org)
+# This script was written by Daniel BP (www.danbp.org)
 #
 # 7-Zip Copyright (C) 1999-2020 Igor Pavlov.
 # Original Total 7-Zip plugin from TotalCmd.net (http://totalcmd.net/plugring/Total7zip.html)
