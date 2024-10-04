@@ -2,7 +2,7 @@
 # Total7zip Plugin Installer for FreeCommander XE
 # This script was written by Daniel BP (www.danbp.org)
 #
-# 7-Zip Copyright (C) 1999-2020 Igor Pavlov.
+# 7-Zip Copyright (C) 1999-2024 Igor Pavlov.
 # Original Total 7-Zip plugin from TotalCmd.net (http://totalcmd.net/plugring/Total7zip.html)
 #
 
@@ -56,7 +56,7 @@ function Read-Host-Color($ForegroundColor)
 Write-Output-Color green "`n------------------------------------------------------------------------------------" 
 Write-Output-Color green "Welcome to the Total7Zip Installer for FreeCommander XE by Daniel BP (www.danbp.org)"
 Write-Output-Color green "------------------------------------------------------------------------------------`n"
-Write-Output-Color green "Script version: 1.6.0`n"
+Write-Output-Color green "Script version: 1.7.0`n"
 Write-Output "This script will download, install and configure the latest version of 7-zip plugin."
 Write-Output "`nElevated permissions will be required...`n"
 Write-Output-Color red "`nPlease make sure you ended FreeCommander XE process including the notification bar icon. If you don't do this the configuration files will not be updated!`n"

@@ -5,10 +5,10 @@ This is a PowerShell script for the automatic installation of the latest version
 7-Zip is one of the most complete archivers supporting a huge range of compressed file types. Total7zip plugin does not require 7-Zip to be installed on the device.
 
 ## Current 7-Zip library version
-* 23.01
+* 24.08
 
 ## Tested with
-* FreeCommander XE Build 894 (64-bit) and 880 (32-bit)
+* FreeCommander XE Build 913 (64-bit) and 913 (32-bit)
 
 ## Features
 * Automatic download and installation of the latest version of the Total7zip plugin. 
@@ -44,6 +44,9 @@ This is a PowerShell script for the automatic installation of the latest version
 
 ## Changelog
 
+### Version 1.7 (04/10/2024)
+* Updated 7-Zip library to 24.08, latest stable.
+
 ### Version 1.6 (07/10/2023)
 * Updated 7-Zip library to 23.01, latest stable.
 * Downloads the 7-Zip plugin directly from GitHub repository, not from my personal website.
@@ -77,9 +80,9 @@ This is a PowerShell script for the automatic installation of the latest version
 * Initial release
 
 ## Credits
-* 7-Zip Copyright © 1999-2020 Igor Pavlov (https://www.7-zip.org/)
+* 7-Zip Copyright © 1999-2024 Igor Pavlov (https://www.7-zip.org/)
 * Total 7-Zip plugin from TotalCmd.net (http://totalcmd.net/plugring/Total7zip.html)
-* FreeCommander XE Copyright © 2004-2020 Marek Jasinski (www.freecommander.com)
+* FreeCommander XE Copyright © 2004-2024 Marek Jasinski (www.freecommander.com)
 
 ## Bugs and feature requests
 * Please contact me at www.danbp.org
