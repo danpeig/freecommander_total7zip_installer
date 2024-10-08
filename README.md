@@ -46,7 +46,7 @@ This is a PowerShell script for the automatic installation of the latest version
 ## Changelog
 
 ### Version 1.8 (08/10/2024)
-* Reorganized 7-zip folder/files topology.
+* Reorganized 7-zip folders and files
 
 ### Version 1.7 (04/10/2024)
 * Updated 7-Zip library to 24.08, latest stable.
