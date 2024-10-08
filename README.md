@@ -49,32 +49,33 @@ This is a PowerShell script for the automatic installation of the latest version
 
 ### Version 1.8 (08/10/2024)
 * Reorganized 7-zip folders and files
+* Improved readme file
 
 ### Version 1.7 (04/10/2024)
-* Updated 7-Zip library to 24.08, latest stable.
+* Updated 7-Zip library to 24.08, latest stable
 
 ### Version 1.6 (07/10/2023)
-* Updated 7-Zip library to 23.01, latest stable.
-* Downloads the 7-Zip plugin directly from GitHub repository, not from my personal website.
-* Updated troubleshooting section.
+* Updated 7-Zip library to 23.01, latest stable
+* Downloads the 7-Zip plugin directly from GitHub repository, not from my personal website
+* Updated troubleshooting section
 
 ### Version 1.5 (06/02/2022)
-* Updated 7-Zip library to 21.07 latest stable.
+* Updated 7-Zip library to 21.07 latest stable
 
 ### Version 1.4 (24/10/2021)
 * Fixed 32-bit version default installation directory name
 
 ### Version 1.3 (14/03/2021)
-* Updated 7-Zip library to 21.01 alpha as several important bugs were fixed since version 19.
+* Updated 7-Zip library to 21.01 alpha as several important bugs were fixed since version 19
 
 ### Version 1.2 (21/10/2020)
-* Fixed BOM in the generated INI configuration files.
-* Fixed installation on systems without the built-in archiver plugins configured.
-* Automatic detection of installation path if the script is placed in the FreeCommander.exe installation folder (nice for Portable versions).
-* Display the script version during startup.
+* Fixed BOM in the generated INI configuration files
+* Fixed installation on systems without the built-in archiver plugins configured
+* Automatic detection of installation path if the script is placed in the FreeCommander.exe installation folder (nice for Portable versions)
+* Display the script version during startup
 
 ### Version 1.11 (20/10/2020)
-* Added a final pause to prevent the PowerShell window from closing automatically in some systems.
+* Added a final pause to prevent the PowerShell window from closing automatically in some systems
 
 ### Version 1.1 (19/10/2020)
 * Automatic detection of the settings folder for portable installations
