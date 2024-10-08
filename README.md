@@ -35,7 +35,7 @@ This is a PowerShell script for the automatic installation of the latest version
 * **Script was blocked because it was not signed:** Right click on the script file, select properties and 'unblock'.
 * **Optional admin rights:** Are required to modify installed versions of FreeCommander. If you are using the portable version, you don't need admin rights. In this case, delete the "Self-elevate" portion of the script and run again.
 * **Can't find FreeCommander path:** Depending on your system language settings, the input prompt for a custom install path will not work. In this case, edit the script file and add the paths manually. Required fields:  `defaultInstallPath64` or `defaultInstallPath32` and `defaultConfigPath`.
-* **Unable to load 7-zip DLL:** This can happen when the 7-ZIP downloaded files are not trusted by Windows. From the plugin installation folder, check the properties of all DLL and EXE files to ensure they are "unblocked".
+* **Unable to load/find 7-zip DLL:** This can happen when the 7-ZIP downloaded files are not trusted by Windows. From the plugin installation folder, check the properties of all DLL and EXE files to ensure they are "unblocked".
 
 ## FAQ
 * **Why did you disabled the built-in plugins?** 7-Zip library is offers more configuration options and is compatible with more file types. I disabled the standard plugins to keep a consistent user experience among different packagers.
