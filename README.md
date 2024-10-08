@@ -27,15 +27,17 @@ This is a PowerShell script for the automatic installation of the latest version
 5. After the installation, start FreeCommander and test packing and unpacking a *7z* file.
 
 ## Uninstall
-1. From FreeCommander XE configuration menu, delete the entries for the 7Zip archiver plugin.
-2. Delete the *Plugins/wcx/Total7zip* folder from the FreeCommander XE installation folder (usually *Program Files\Free Commander XE*).
+1. From FreeCommander XE `settings-archiver` menu, delete the entries for the 7Zip archiver plugin.
+2. Restart FreeCommander XE.
+3. Delete the *Plugins/wcx/Total7zip* folder from the FreeCommander XE installation folder (usually *Program Files\Free Commander XE*).
 
 ## Troubleshooting
 * **Not able to download the Total7zip package:** Download the [Total7Zip.zip](https://danpeig.github.io/freecommander_total7zip_installer/Total7Zip.zip) file from the repository. Place in the same folder as the script and run the script again.
 * **Script was blocked because it was not signed:** Right click on the script file, select properties and 'unblock'.
-* **Optional admin rights:** Are required to modify installed versions of FreeCommander. If you are using the portable version, you don't need admin rights. In this case, delete the "Self-elevate" portion of the script and run again.
+* **Can't use admin rights in my PC:** Admin rights are only required for the installed version of FreeCommander. If you are using the portable version, you don't need admin rights. In this case, delete the "Self-elevate" portion of the script and run again.
 * **Can't find FreeCommander path:** Depending on your system language settings, the input prompt for a custom install path will not work. In this case, edit the script file and add the paths manually. Required fields:  `defaultInstallPath64` or `defaultInstallPath32` and `defaultConfigPath`.
 * **Unable to load/find 7-zip DLL:** This can happen when the 7-ZIP downloaded files are not trusted by Windows. From the plugin installation folder, check the properties of all DLL and EXE files to ensure they are "unblocked". If the problem continues, try reloading the plugin: from `settings->archiver`, disable Total7Zip, restart FreeCommander and then re-enable it.
+* **Corrupted or damaged FreeCommander.ini file:** The script does a backup of the `FreeCommander.ini` before the installation. The backup file is named `FreeCommander_BKP1.ini` (number will increase for each run) and is placed in the same folder as the original ini file. Use this backup as last resource in case something went wrong. Ensure you terminate FreeCommander process before restoring the ini file to prevent `Auto Save Settings` from reverting the changes.
 
 ## FAQ
 * **Why did you disabled the built-in plugins?** 7-Zip library is offers more configuration options and is compatible with more file types. I disabled the standard plugins to keep a consistent user experience among different packagers.
